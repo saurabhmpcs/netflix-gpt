@@ -14,15 +14,9 @@ const Login = () => {
 
   const email = useRef(null);
   const password = useRef(null);
-  const name = useRef(null);
 
   const handleButtonClick = () => {
-    //Validate the form data
-    const message = checkValidData(
-      email.current.value,
-      password.current.password,
-      name.current.password
-    );
+    const message = checkValidData(email.current.value, password.current.value);
     setErrorMessage(message);
     if (message) return;
 
@@ -30,15 +24,36 @@ const Login = () => {
 
     if (!isSignInForm) {
       //Sign Up Logic
-      createUserWithEmailAndPassword(auth, email, password)
+      createUserWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
         .then((userCredential) => {
           // Signed In
           const user = userCredential.user;
+          console.log(user);
           //
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
+          setErrorMessage(errorCode + "-" + errorMessage);
+        });
+    } else {
+      signInWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log(user);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(errorCode + "-" + errorMessage);
         });
     }
   };
@@ -67,7 +82,6 @@ const Login = () => {
 
         {!isSignInForm && (
           <input
-            ref={name}
             type="text"
             placeholder="Full Name"
             className="p-4 my-4 w-full bg-gray-700"
