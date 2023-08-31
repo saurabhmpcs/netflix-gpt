@@ -11,6 +11,11 @@
 - Firebase-authentication
 - deploying our app to production
 - create sign-up user account
+- Implement Sign In user APi
+- Created Redux Store with userSlice
+- Implemented SignOut
+- updated profile
+- Fetch from TMDB movies
 
 # Feature
 
