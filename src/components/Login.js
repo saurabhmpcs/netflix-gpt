@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useState, useRef } from "react";
 import Header from "./Header";
 import { checkValidData } from "../utils/validate";
 import {
@@ -9,7 +9,7 @@ import {
 import { auth } from "../utils/firebase";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
-import { BG_IMAGE, USER_AVATAR } from "../utils/constants";
+import { BG_URL, USER_AVATAR } from "../utils/constants";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
@@ -25,21 +25,16 @@ const Login = () => {
     setErrorMessage(message);
     if (message) return;
 
-    //Sign In Sign Up Logic
-
     if (!isSignInForm) {
-      //Sign Up Logic
+      // Sign Up Logic
       createUserWithEmailAndPassword(
         auth,
         email.current.value,
         password.current.value
       )
         .then((userCredential) => {
-          // Signed In
-
           const user = userCredential.user;
-
-          updateProfile(auth.currentUser, {
+          updateProfile(user, {
             displayName: name.current.value,
             photoURL: USER_AVATAR,
           })
@@ -53,7 +48,6 @@ const Login = () => {
                   photoURL: photoURL,
                 })
               );
-              // ...
             })
             .catch((error) => {
               setErrorMessage(error.message);
@@ -65,14 +59,15 @@ const Login = () => {
           setErrorMessage(errorCode + "-" + errorMessage);
         });
     } else {
+      // Sign In Logic
       signInWithEmailAndPassword(
         auth,
         email.current.value,
         password.current.value
       )
         .then((userCredential) => {
+          // Signed in
           const user = userCredential.user;
-          console.log(user);
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -85,12 +80,15 @@ const Login = () => {
   const toggleSignInForm = () => {
     setIsSignInForm(!isSignInForm);
   };
-
   return (
     <div>
       <Header />
       <div className="absolute">
-        <img className="h-screen object-cover" src={BG_IMAGE} alt="logo" />
+        <img
+          className="h-screen w-screen  object-cover"
+          src={BG_URL}
+          alt="logo"
+        />
       </div>
       <form
         onSubmit={(e) => e.preventDefault()}
@@ -136,5 +134,4 @@ const Login = () => {
     </div>
   );
 };
-
 export default Login;
