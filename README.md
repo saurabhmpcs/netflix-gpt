@@ -29,6 +29,9 @@
 - Update store with trailer vide data
 - embedded The youtube video and made it autopaly and mute
 - Tailwind Classes to make mainconatiner look good
+- build Secondary component
+- Build Movie List
+-
 
 # Feature
 
