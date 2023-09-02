@@ -9,7 +9,7 @@ const Browse = () => {
   usePopularMovies();
 
   return (
-    <div>
+    <div className="">
       <Header />
       <MainContainer />
       <SecondaryContainer />
